@@ -1,0 +1,1 @@
+../.agents/rules/clean-architecture-layer-separation.md

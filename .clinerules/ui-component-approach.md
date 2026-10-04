@@ -1,0 +1,1 @@
+../.agents/rules/ui-component-approach.md

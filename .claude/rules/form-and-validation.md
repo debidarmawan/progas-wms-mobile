@@ -32,5 +32,4 @@ export const userSchema = z.object({
   - `*<package-name>.table.tsx`
   - `*<package-name>.table-columns.tsx`
   - `*<package-name>.table-actions.tsx`
-- **Imports**:
-  - Must import components from `@/components/organisms/data-table/*.tsx`
+- **Imports**: build lists with `FlatList` plus the shared primitives in `@/components/ui/**`. A shared data-table organism (`@/components/organisms/data-table/*`) is not implemented yet — add it only when a real shared table is extracted.

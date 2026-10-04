@@ -2,6 +2,17 @@
 
 Mobile app for drivers/field staff in the Progas WMS ecosystem. Stack decided and scaffolding in progress: **Expo SDK 57 (React Native) + NativeWind v4 + react-native-reusables + React Navigation**, with clean-architecture packages under `src/packages/<name>/{domain,usecases,repository,presentation}` mirroring `progas-wms` (web)'s layering conventions. See `.claude/rules/*.md` for the enforced conventions (layer separation, naming, component organization, UI approach).
 
+## Rules & skills (for AI agents)
+
+The canonical rules are `.agents/rules/*.md` (layer separation, package boundaries, naming, component organization, React Native, NativeWind UI approach, UI/business separation, form & validation, presentation structure) and the skills are in `.agents/skills/*`. Claude Code uses the identical mirrors under `.claude/`.
+
+Cline reads rules from `.clinerules/` and skills from `.cline/skills/`, so those directories contain **symlinks** back to the `.agents/` files — no duplicated content:
+
+- `.clinerules/*.md` → `.agents/rules/*.md`
+- `.cline/skills/*` → `.agents/skills/*`
+
+Edit rules/skills in `.agents/` (or `.claude/`); Cline picks them up automatically. `AGENTS.md` is the cross-tool entry point.
+
 **Read `../progas-docs/` first** — check the roadmap and business flow before writing code:
 
 - `../progas-docs/04-roadmap.md` (Fase 3) — the mobile app's planned scope: scanning cylinder barcodes at load time and at customer drop-off, linking scans to Delivery Orders

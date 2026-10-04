@@ -1,21 +1,20 @@
 # Component Organization
 
-Follow atomic design hierarchy for components:
+Components are React Native (`.tsx`) organized into atomic layers under
+`src/components/`. Dependencies only point downward — a layer may use simpler
+layers, never more complex ones:
 
-- **Atoms** (`src/components/atoms/**/*`) should NOT import from:
-  - `src/components/molecules/**/*`
-  - `src/components/organisms/**/*`
-  - `src/components/templates/**/*`
+- **Primitives** (`src/components/ui/**/*`) — react-native-reusables + NativeWind
+  base components (button, text, input, card, badge, ...). Must NOT import from
+  `molecules/`, `organisms/`, `templates/`, or `src/packages/**`.
+- **Molecules** (`src/components/molecules/**/*`) — small combinations of primitives.
+  Must NOT import from `organisms/` or `templates/`.
+- **Organisms** (`src/components/organisms/**/*`) — feature-agnostic composed blocks
+  (e.g. `brand-mark.tsx`). Must NOT import from `templates/`.
+- **Templates** (`src/components/templates/**/*`) — screen/page layouts
+  (e.g. `screen-container.tsx`).
 
-- **Molecules** (`src/components/molecules/**/*`) should NOT import from:
-  - `src/components/organisms/**/*`
-  - `src/components/templates/**/*`
-
-- **Organisms** (`src/components/organisms/**/*`) should NOT import from:
-  - `src/components/templates/**/*`
-
-- **UI** (`src/components/ui/**/*`) react-native-reusables + NativeWind primitives
-
-Components are React Native (`.tsx`) organized under the same atomic
-directories (`ui/`, `molecules/`, `organisms/`, `templates/`). This ensures
-components can only depend on simpler components, not more complex ones.
+Current contents: `ui/` (avatar, badge, button, card, icon, input, label,
+separator, text), `organisms/brand-mark.tsx`, `templates/screen-container.tsx`.
+There is no `atoms/` directory — `ui/` fills that role; add `molecules/` only
+when a shared primitive combination is genuinely reused.

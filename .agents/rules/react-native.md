@@ -1,8 +1,11 @@
-# This is React Native 0.83 (bare CLI)
+# This is Expo (React Native 0.86, SDK 57) — not the web
 
-This is **not** the web React you know. There is no DOM and there are no
+This app is built with **Expo SDK 57** on **React Native 0.86** (new
+architecture). It is **not** the web React you know: there is no DOM and no
 Next.js APIs. Do not reach for `<div>`, `<span>`, `window`, `document`,
 `next/navigation`, `next/link`, `next/image`, or any browser/server-only API.
+
+Entry point: `index.ts` → `src/App.tsx` → `src/app/root-navigator.tsx`.
 
 ## Core primitives
 
@@ -34,7 +37,7 @@ components. Use the semantic tokens defined in `tailwind.config.js`
 
 ## Before writing code
 
-Read the current **React Navigation** and **NativeWind v4** docs before
-writing navigation or styling code — their APIs may differ from your training
-data. Heed React Native **new-architecture** (Fabric/TurboModules) notes and
-any deprecation warnings.
+Read the current **Expo SDK 57**, **React Navigation 7**, and **NativeWind v4**
+docs before writing navigation or styling code — their APIs may differ from
+your training data. Heed React Native **new-architecture** (Fabric/TurboModules)
+notes and any deprecation warnings.

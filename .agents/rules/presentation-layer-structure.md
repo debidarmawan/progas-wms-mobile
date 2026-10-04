@@ -22,7 +22,7 @@ The presentation layer should be organized into:
 
 - **Components** (`src/packages/<package-name>/presentation/components/**/*`): Should contain reusable components specific to the feature
 - **Schemas** (`src/packages/<package-name>/presentation/<package-name>.schema.ts`): Should contain Zod schemas for validation
-- **Menus** (`src/shared/constants/routes.ts` and `src/shared/utils/menus.ts`): Should contain menu and route definition files
+- **Navigation is not a presentation concern**: routes/screens are defined with React Navigation under `src/app/` (e.g. `src/app/root-navigator.tsx`). There is no `routes.ts`/`menus.ts`; shared constants live in `src/shared/utils` (or a future `src/constants/`).
 
 ## Import Rules
 
