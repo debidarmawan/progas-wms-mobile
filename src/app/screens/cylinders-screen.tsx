@@ -1,63 +1,117 @@
-import { useAuth } from '@/packages/auth/presentation/auth-context';
-import { Card, CardContent } from '@/components/ui/card';
-import { ScreenContainer } from '@/components/templates/screen-container';
+import type { CylindersStackParamList } from '@/app/navigation-types';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
-import { Alert, FlatList, TouchableOpacity, View } from 'react-native';
+import { ScreenContainer } from '@/components/templates/screen-container';
+import { useAuth } from '@/packages/auth/presentation/auth-context';
+import { CylinderListItem } from '@/packages/cylinders/presentation/components/cylinder-list-item';
+import { useCylinders } from '@/packages/cylinders/presentation/cylinders.hook';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ActivityIndicator, FlatList, RefreshControl, View } from 'react-native';
 
-interface Cylinder {
-  id: string;
-  barcode: string;
-  status: string;
-}
-
-const MOCK_CYLINDERS: Cylinder[] = [
-  { id: '1', barcode: 'BAR001', status: 'FILLED' },
-  { id: '2', barcode: 'BAR002', status: 'EMPTY' },
-  { id: '3', barcode: 'BAR003', status: 'READY' },
-];
+type CylindersNavigation = NativeStackNavigationProp<CylindersStackParamList, 'CylindersList'>;
 
 export function CylindersScreen() {
   const { user } = useAuth();
+  const navigation = useNavigation<CylindersNavigation>();
+  const {
+    items,
+    meta,
+    hasMore,
+    loading,
+    refreshing,
+    loadingMore,
+    error,
+    search,
+    setSearch,
+    refresh,
+    loadMore,
+    reload,
+  } = useCylinders();
 
-  const renderItem = ({ item }: { item: Cylinder }) => (
-    <TouchableOpacity
-      onPress={() => Alert.alert('Silinder ' + item.barcode, 'Status: ' + item.status)}
-      className='p-4 mb-2'
-    >
-      <Card>
-        <CardContent className='flex-row items-center justify-between'>
-          <View className='flex-1'>
-            <Text variant='h4'>Barcode: {item.barcode}</Text>
-            <Text className={item.status === 'FILLED' ? 'text-green-600' : item.status === 'EMPTY' ? 'text-gray-600' : 'text-yellow-600'}>
-              {item.status}
-            </Text>
-          </View>
-          <TouchableOpacity className='ml-4'>
-            <Text>▶</Text>
-          </TouchableOpacity>
-        </CardContent>
-      </Card>
-    </TouchableOpacity>
-  );
+  const showInitialLoading = loading && items.length === 0;
+  const showBlockingError = !!error && items.length === 0;
 
   return (
     <ScreenContainer>
-      <View className='flex-row justify-between items-center mb-4'>
-        <View>
-          <Text variant='h3'>Manajemen Silinder</Text>
-          <Text variant='small' className='text-muted-foreground'>
-            Login sebagai: {user?.name || user?.email}
-          </Text>
-        </View>
-        <Text className='text-sm'>🔄</Text>
+      <View className="gap-1">
+        <Text variant="h3">Manajemen Silinder</Text>
+        <Text variant="small" className="text-muted-foreground">
+          Login sebagai: {user?.name || user?.email}
+          {meta ? ` • ${meta.total_items} tabung` : ''}
+        </Text>
       </View>
 
-      <FlatList
-        data={MOCK_CYLINDERS}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: 16 }}
+      <Input
+        value={search}
+        onChangeText={setSearch}
+        placeholder="Cari barcode, produk, atau status"
+        autoCapitalize="none"
+        autoCorrect={false}
+        returnKeyType="search"
       />
+
+      {showInitialLoading ? (
+        <View className="flex-1 items-center justify-center gap-3">
+          <ActivityIndicator />
+          <Text variant="muted">Memuat silinder...</Text>
+        </View>
+      ) : showBlockingError ? (
+        <View className="flex-1 items-center justify-center gap-4">
+          <Text accessibilityRole="alert" className="text-center text-destructive">
+            {error}
+          </Text>
+          <Button variant="outline" onPress={reload}>
+            <Text>Coba lagi</Text>
+          </Button>
+        </View>
+      ) : (
+        <FlatList
+          className="flex-1"
+          data={items}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <CylinderListItem
+              cylinder={item}
+              onPress={(cylinder) =>
+                navigation.navigate('CylinderDetail', {
+                  id: cylinder.id,
+                  barcode: cylinder.barcode_sn,
+                })
+              }
+            />
+          )}
+          ItemSeparatorComponent={() => <View className="h-3" />}
+          contentContainerClassName={items.length === 0 ? 'flex-grow justify-center' : 'pb-4'}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
+          onEndReachedThreshold={0.4}
+          onEndReached={loadMore}
+          ListEmptyComponent={
+            <View className="items-center gap-2 px-6">
+              <Text variant="muted" className="text-center">
+                Tidak ada silinder ditemukan.
+              </Text>
+              {!!error && (
+                <Text accessibilityRole="alert" className="text-center text-destructive">
+                  {error}
+                </Text>
+              )}
+            </View>
+          }
+          ListFooterComponent={
+            loadingMore ? (
+              <View className="py-4">
+                <ActivityIndicator />
+              </View>
+            ) : !hasMore && items.length > 0 ? (
+              <Text variant="muted" className="py-4 text-center">
+                Semua data sudah dimuat.
+              </Text>
+            ) : null
+          }
+        />
+      )}
     </ScreenContainer>
   );
 }
