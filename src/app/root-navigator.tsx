@@ -1,4 +1,5 @@
 import { HomeScreen } from '@/app/screens/home-screen';
+import { CylindersScreen } from '@/app/screens/cylinders-screen';
 import { THEME } from '@/shared/utils/theme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -15,6 +16,7 @@ export function RootNavigator() {
         tabBarStyle: { backgroundColor: THEME.card, borderTopColor: THEME.border },
       }}>
       <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Beranda' }} />
+      <Tab.Screen name="Cylinders" component={CylindersScreen} options={{ title: 'Silinder' }} />
     </Tab.Navigator>
   );
 }
