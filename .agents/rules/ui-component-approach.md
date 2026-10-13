@@ -38,6 +38,12 @@ Use **react-native-reusables** and **NativeWind** for all UI components:
   }
   ```
 
+- **Style placeholders with the `placeholder:` variant** (`placeholder:text-muted-foreground`),
+  always inside `className`. Do **not** use the `placeholderClassName` prop: it is declared in
+  `react-native-css-interop`'s `types.d.ts` but not implemented, so it is silently ignored and the
+  placeholder keeps the platform colour (white on Android's DayNight theme → invisible here).
+  NativeWind converts the `placeholder:` variant into the native `placeholderTextColor` prop.
+
 - **UI components** (`src/components/ui/**/*`) should NOT import from:
   - `src/packages/<package-name>/**/*` (keep UI library independent of business logic)
 

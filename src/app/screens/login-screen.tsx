@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { useAuth } from '@/packages/auth/presentation/auth-context';
 import { useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, Platform, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 export function LoginScreen() {
   const { signIn, error } = useAuth();
@@ -30,10 +30,8 @@ export function LoginScreen() {
   }
 
   return (
-    <ScreenContainer>
-      <KeyboardAvoidingView
-        className="flex-1 justify-center gap-6"
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <ScreenContainer scrollable keyboardAvoiding>
+      <View className="flex-grow justify-center gap-6">
         <BrandMark />
         <Card>
           <CardHeader>
@@ -83,7 +81,7 @@ export function LoginScreen() {
             </Button>
           </CardContent>
         </Card>
-      </KeyboardAvoidingView>
+      </View>
     </ScreenContainer>
   );
 }

@@ -34,7 +34,7 @@ export function CylindersScreen() {
   const showBlockingError = !!error && items.length === 0;
 
   return (
-    <ScreenContainer>
+    <ScreenContainer keyboardAvoiding>
       <View className="gap-1">
         <Text variant="h3">Manajemen Silinder</Text>
         <Text variant="small" className="text-muted-foreground">
