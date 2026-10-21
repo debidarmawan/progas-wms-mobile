@@ -31,6 +31,12 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Aplikasi memakai kamera untuk memindai QR/barcode label tabung."
+        }
       ]
     ],
     "experiments": {

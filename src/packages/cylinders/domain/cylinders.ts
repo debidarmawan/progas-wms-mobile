@@ -65,6 +65,38 @@ export type CylinderHistory = {
 
 export type BadgeVariant = 'default' | 'secondary' | 'destructive' | 'outline';
 
+/** Backend scan menus, in the order they appear in the cylinder lifecycle. */
+export const CYLINDER_SCAN_MENUS = [
+  { value: 'pre-fill', label: 'Terima Kosong' },
+  { value: 'filling', label: 'Pengisian' },
+  { value: 'post-fill', label: 'QC Pasca Isi' },
+  { value: 'do', label: 'Muat Surat Jalan' },
+  { value: 'exchange-out', label: 'Tukar Keluar' },
+  { value: 'exchange-in', label: 'Tukar Masuk' },
+  { value: 'hydrotest', label: 'Hydrotest' },
+] as const;
+
+export type CylinderScanMenu = (typeof CYLINDER_SCAN_MENUS)[number]['value'];
+
+export type CylinderScan = {
+  id: string;
+  barcode_sn: string;
+  item_id: string;
+  item_name: string;
+  gas_type: string;
+  ownership_type: CylinderOwnershipType;
+  status: CylinderStatus;
+  menu: string;
+  allowed: boolean;
+  reason?: string;
+  allowed_menus: string[];
+};
+
+/** Human-readable label for a scan menu value, falling back to the raw value. */
+export function cylinderScanMenuLabel(menu: string): string {
+  return CYLINDER_SCAN_MENUS.find((item) => item.value === menu)?.label ?? menu;
+}
+
 const STATUS_LABELS: Record<CylinderStatus, string> = {
   EMPTY: 'Kosong',
   READY_TO_FILL: 'Siap Isi',

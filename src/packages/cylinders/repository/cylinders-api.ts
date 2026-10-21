@@ -1,6 +1,8 @@
 import {
   type Cylinder,
   type CylinderHistory,
+  type CylinderScan,
+  type CylinderScanMenu,
   type PaginatedCylinders,
 } from '@/packages/cylinders/domain/cylinders';
 import { apiRequest } from '@/packages/auth/repository/auth-api';
@@ -38,4 +40,13 @@ export async function fetchCylinderByBarcode(barcode: string): Promise<Cylinder>
 /** GET /cylinders/:id/history — master-data and status change history. */
 export async function fetchCylinderHistory(id: string): Promise<CylinderHistory> {
   return apiRequest<CylinderHistory>(`/cylinders/${encodeURIComponent(id)}/history`);
+}
+
+/** GET /cylinders/scan/:sn?menu= — resolves a scanned SN against one menu. */
+export async function fetchCylinderScan(
+  barcode: string,
+  menu: CylinderScanMenu
+): Promise<CylinderScan> {
+  const query = buildQuery({ menu });
+  return apiRequest<CylinderScan>(`/cylinders/scan/${encodeURIComponent(barcode)}${query}`);
 }

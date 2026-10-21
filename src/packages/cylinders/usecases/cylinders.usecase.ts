@@ -2,12 +2,15 @@ import { ApiError } from '@/packages/auth/repository/auth-api';
 import type {
   Cylinder,
   CylinderHistory,
+  CylinderScan,
+  CylinderScanMenu,
   PaginatedCylinders,
 } from '@/packages/cylinders/domain/cylinders';
 import {
   fetchCylinderByBarcode,
   fetchCylinderById,
   fetchCylinderHistory,
+  fetchCylinderScan,
   fetchCylinders,
 } from '@/packages/cylinders/repository/cylinders-api';
 
@@ -46,4 +49,14 @@ export async function getCylinderByBarcode(barcode: string): Promise<Cylinder> {
 export async function getCylinderHistory(id: string): Promise<CylinderHistory> {
   if (!id) throw new ApiError('ID silinder tidak valid.', 400);
   return fetchCylinderHistory(id);
+}
+
+/** Resolves a scanned barcode against a menu; the backend decides eligibility. */
+export async function scanCylinder(
+  barcode: string,
+  menu: CylinderScanMenu
+): Promise<CylinderScan> {
+  const sn = barcode.trim().toUpperCase();
+  if (!sn) throw new ApiError('Barcode tidak boleh kosong.', 400);
+  return fetchCylinderScan(sn, menu);
 }

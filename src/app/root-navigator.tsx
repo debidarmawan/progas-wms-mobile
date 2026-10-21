@@ -2,6 +2,7 @@ import type { CylindersStackParamList } from '@/app/navigation-types';
 import { CylinderDetailScreen } from '@/app/screens/cylinder-detail-screen';
 import { CylindersScreen } from '@/app/screens/cylinders-screen';
 import { HomeScreen } from '@/app/screens/home-screen';
+import { ScanScreen } from '@/app/screens/scan-screen';
 import { THEME } from '@/shared/utils/theme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -41,6 +42,11 @@ export function RootNavigator() {
         tabBarStyle: { backgroundColor: THEME.card, borderTopColor: THEME.border },
       }}>
       <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Beranda' }} />
+      <Tab.Screen
+        name="Scan"
+        component={ScanScreen}
+        options={{ title: 'Scan' }}
+      />
       <Tab.Screen
         name="Cylinders"
         component={CylindersNavigator}
