@@ -4,7 +4,7 @@ Mobile app for drivers/field staff in the Progas WMS ecosystem. Stack decided an
 
 ## Rules & skills (for AI agents)
 
-The canonical rules are `.agents/rules/*.md` (layer separation, package boundaries, naming, component organization, React Native, NativeWind UI approach, UI/business separation, form & validation, presentation structure) and the skills are in `.agents/skills/*`. Claude Code uses the identical mirrors under `.claude/`.
+The canonical rules are `.agents/rules/*.md` (layer separation, package boundaries, naming, component organization, React Native, NativeWind UI approach, UI/business separation, form & validation, presentation structure, plus `ponytail.md` for scope discipline and `caveman.md` for reply style) and the skills are in `.agents/skills/*`. Claude Code uses the identical mirrors under `.claude/`.
 
 Cline reads rules from `.clinerules/` and skills from `.cline/skills/`, so those directories contain **symlinks** back to the `.agents/` files — no duplicated content:
 
